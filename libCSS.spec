@@ -71,11 +71,13 @@ export CFLAGS="%{rpmcflags}"
 export LDFLAGS="%{rpmldflags}"
 
 %{__make} Q= \
+	CC="%{__cc}" \
 	PREFIX=%{_prefix}  \
 	COMPONENT_TYPE=lib-shared
 
 %if %{with static_libs}
 %{__make} Q= \
+	CC="%{__cc}" \
 	PREFIX=%{_prefix} \
 	COMPONENT_TYPE=lib-static
 %endif
