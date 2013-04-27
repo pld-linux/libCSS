@@ -1,0 +1,18 @@
+--- libcss-0.2.0/Makefile~	2013-04-19 21:40:31.000000000 +0300
++++ libcss-0.2.0/Makefile	2013-04-27 16:42:38.688935442 +0300
+@@ -44,6 +44,7 @@
+ include $(NSBUILD)/Makefile.top
+ 
+ # Extra installation rules
++lib := lib
+ I := /include/libcss
+ 
+ INSTALL_ITEMS := $(INSTALL_ITEMS) $(I):include/libcss/computed.h
+@@ -57,5 +58,5 @@
+ INSTALL_ITEMS := $(INSTALL_ITEMS) $(I):include/libcss/select.h
+ INSTALL_ITEMS := $(INSTALL_ITEMS) $(I):include/libcss/stylesheet.h
+ INSTALL_ITEMS := $(INSTALL_ITEMS) $(I):include/libcss/types.h
+-INSTALL_ITEMS := $(INSTALL_ITEMS) /lib/pkgconfig:lib$(COMPONENT).pc.in
+-INSTALL_ITEMS := $(INSTALL_ITEMS) /lib:$(OUTPUT)
++INSTALL_ITEMS := $(INSTALL_ITEMS) /$(lib)/pkgconfig:lib$(COMPONENT).pc.in
++INSTALL_ITEMS := $(INSTALL_ITEMS) /$(lib):$(OUTPUT)

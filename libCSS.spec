@@ -1,8 +1,9 @@
+# TODO:
+# - avoid compilation in the install stage
 #
-# TODO: avoid compilation in the install stage
 # Conditional build:
 %bcond_without	static_libs	# don't build static library
-#
+
 Summary:	CSS parser and selection engine
 Name:		libCSS
 Version:	0.2.0
@@ -11,11 +12,15 @@ License:	MIT
 Group:		Libraries
 Source0:	http://download.netsurf-browser.org/libs/releases/libcss-%{version}-src.tar.gz
 # Source0-md5:	e61700e0dce2a122d65b85dba04c4b40
+Patch0:		lib.patch
 URL:		http://www.netsurf-browser.org/projects/libcss/
 BuildRequires:	libparserutils-devel >= 0.1.2
 BuildRequires:	libwapcaplet-devel >= 0.2.0
 BuildRequires:	netsurf-buildsystem
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# broken linking
+%define	no_install_post_check_so 1
 
 %description
 LibCSS is a CSS (Cascading Style Sheet) parser and selection engine,
@@ -23,8 +28,7 @@ written in C. It was developed as part of the NetSurf project and is
 available for use by other software under the MIT licence. For further
 details, see the readme.
 
-Features
-
+Features:
 - Parses CSS, good and bad
 - Simple C API
 - Low memory usage
@@ -60,6 +64,7 @@ Statyczna biblioteka libCSS.
 
 %prep
 %setup -q -n libcss-%{version}
+%patch0 -p1
 
 %build
 %{__make} PREFIX=%{_prefix} COMPONENT_TYPE=lib-shared Q='' \
@@ -71,19 +76,16 @@ Statyczna biblioteka libCSS.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-%{__make} -j1 install \
-	DESTDIR=$RPM_BUILD_ROOT \
+%{__make} -j1 install Q='' \
 	PREFIX=%{_prefix} \
 	COMPONENT_TYPE=lib-shared \
-	Q=''
+	DESTDIR=$RPM_BUILD_ROOT
 
 %if %{with static_libs}
-%{__make} -j1 install \
-	DESTDIR=$RPM_BUILD_ROOT \
+%{__make} -j1 install Q='' \
 	PREFIX=%{_prefix} \
 	COMPONENT_TYPE=lib-static \
-	Q=''
+	DESTDIR=$RPM_BUILD_ROOT
 %endif
 
 %clean
