@@ -77,12 +77,14 @@ Statyczna biblioteka libCSS.
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} -j1 install Q='' \
+	lib=%{_lib} \
 	PREFIX=%{_prefix} \
 	COMPONENT_TYPE=lib-shared \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %if %{with static_libs}
 %{__make} -j1 install Q='' \
+	lib=%{_lib} \
 	PREFIX=%{_prefix} \
 	COMPONENT_TYPE=lib-static \
 	DESTDIR=$RPM_BUILD_ROOT
