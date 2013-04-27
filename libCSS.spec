@@ -67,23 +67,29 @@ Statyczna biblioteka libCSS.
 %patch0 -p1
 
 %build
-%{__make} PREFIX=%{_prefix} COMPONENT_TYPE=lib-shared Q='' \
-	CFLAGS="%{rpmcflags} -Iinclude -Isrc" LDFLAGS="%{rpmldflags}"
+export CFLAGS="%{rpmcflags}"
+export LDFLAGS="%{rpmldflags}"
+
+%{__make} Q= \
+	PREFIX=%{_prefix}  \
+	COMPONENT_TYPE=lib-shared
+
 %if %{with static_libs}
-%{__make} PREFIX=%{_prefix} COMPONENT_TYPE=lib-static Q='' \
-	CFLAGS="%{rpmcflags} -Iinclude -Isrc" LDFLAGS="%{rpmldflags}"
+%{__make} Q= \
+	PREFIX=%{_prefix} \
+	COMPONENT_TYPE=lib-static
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__make} -j1 install Q='' \
+%{__make} -j1 install Q= \
 	lib=%{_lib} \
 	PREFIX=%{_prefix} \
 	COMPONENT_TYPE=lib-shared \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %if %{with static_libs}
-%{__make} -j1 install Q='' \
+%{__make} -j1 install Q= \
 	lib=%{_lib} \
 	PREFIX=%{_prefix} \
 	COMPONENT_TYPE=lib-static \
