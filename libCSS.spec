@@ -6,17 +6,17 @@
 
 Summary:	CSS parser and selection engine
 Name:		libCSS
-Version:	0.2.0
+Version:	0.3.0
 Release:	1
 License:	MIT
 Group:		Libraries
 Source0:	http://download.netsurf-browser.org/libs/releases/libcss-%{version}-src.tar.gz
-# Source0-md5:	e61700e0dce2a122d65b85dba04c4b40
-Patch0:		lib.patch
+# Source0-md5:	f4bf855bab90ef5225dbeeb7d97c514c
+#Patch0:		lib.patch
 URL:		http://www.netsurf-browser.org/projects/libcss/
-BuildRequires:	libparserutils-devel >= 0.1.2
-BuildRequires:	libwapcaplet-devel >= 0.2.0
-BuildRequires:	netsurf-buildsystem
+BuildRequires:	libparserutils-devel >= 0.2.0
+BuildRequires:	libwapcaplet-devel >= 0.2.1
+BuildRequires:	netsurf-buildsystem >= 1.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # broken linking
@@ -64,7 +64,7 @@ Statyczna biblioteka libCSS.
 
 %prep
 %setup -q -n libcss-%{version}
-%patch0 -p1
+#%%patch0 -p1
 
 %build
 export CFLAGS="%{rpmcflags}"
