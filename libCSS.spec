@@ -12,7 +12,6 @@ License:	MIT
 Group:		Libraries
 Source0:	http://download.netsurf-browser.org/libs/releases/libcss-%{version}-src.tar.gz
 # Source0-md5:	f4bf855bab90ef5225dbeeb7d97c514c
-#Patch0:		lib.patch
 URL:		http://www.netsurf-browser.org/projects/libcss/
 BuildRequires:	libparserutils-devel >= 0.2.0
 BuildRequires:	libwapcaplet-devel >= 0.2.1
@@ -64,7 +63,6 @@ Statyczna biblioteka libCSS.
 
 %prep
 %setup -q -n libcss-%{version}
-#%%patch0 -p1
 
 %build
 export CFLAGS="%{rpmcflags}"
