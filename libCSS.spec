@@ -1,10 +1,9 @@
-# TODO:
-# - avoid compilation in the install stage
 #
 # Conditional build:
 %bcond_without	static_libs	# don't build static library
 
 Summary:	CSS parser and selection engine
+Summary(pl.UTF-8):	Silnik analizujący i wybierający CSS
 Name:		libCSS
 Version:	0.3.0
 Release:	1
@@ -18,14 +17,10 @@ BuildRequires:	libwapcaplet-devel >= 0.2.1
 BuildRequires:	netsurf-buildsystem >= 1.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-# broken linking
-%define	no_install_post_check_so 1
-
 %description
 LibCSS is a CSS (Cascading Style Sheet) parser and selection engine,
 written in C. It was developed as part of the NetSurf project and is
-available for use by other software under the MIT licence. For further
-details, see the readme.
+available for use by other software under the MIT licence.
 
 Features:
 - Parses CSS, good and bad
@@ -35,6 +30,19 @@ Features:
 - Portable
 - Shared library
 
+%description -l pl.UTF-8
+LibCSS to silnik analizujący i wybierający CSS (Cascading Style
+Sheet), napisany w C. Powstał jako część projektu NetSurf i można go
+używać w innych programach na licencji MIT. 
+
+Cechy:
+- analizuje CSS, dobry i wadliwy
+- proste API dla języka C
+- małe zużycie pamięci
+- szybki silnik wybierający
+- przenośność
+- biblioteka współdzielona
+
 %package devel
 Summary:	libCSS library headers
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libCSS
@@ -42,21 +50,21 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
-This is the libraries, include files and other resources you can use
-to incorporate libCSS into applications.
+This package contains the include files and other resources you can
+use to incorporate libCSS into applications.
 
 %description devel -l pl.UTF-8
 Pliki nagłówkowe pozwalające na używanie biblioteki libCSS w swoich
 programach.
 
 %package static
-Summary:	libCSS static libraries
-Summary(pl.UTF-8):	Statyczne biblioteki libCSS
+Summary:	libCSS static library
+Summary(pl.UTF-8):	Statyczna biblioteka libCSS
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
-This is package with static libCSS libraries.
+This is package with static libCSS library.
 
 %description static -l pl.UTF-8
 Statyczna biblioteka libCSS.
@@ -64,37 +72,45 @@ Statyczna biblioteka libCSS.
 %prep
 %setup -q -n libcss-%{version}
 
+# create "gen" target just to execute PRE_TARGETS
+printf '\ngen: $(PRE_TARGETS)\n' >> Makefile
+
+%define	comps	lib-shared %{?with_static_libs:lib-static}
+
 %build
+export CC="%{__cc}"
 export CFLAGS="%{rpmcflags}"
 export LDFLAGS="%{rpmldflags}"
 
-%{__make} Q= \
-	CC="%{__cc}" \
-	PREFIX=%{_prefix}  \
-	COMPONENT_TYPE=lib-shared
-
-%if %{with static_libs}
-%{__make} Q= \
-	CC="%{__cc}" \
+# generate sources first to avoid recompilation on install when sources
+# get regenerated during build for second component type
+for c in %{comps} ; do
+%{__make} gen \
+	Q= \
 	PREFIX=%{_prefix} \
-	COMPONENT_TYPE=lib-static
-%endif
+	LIBDIR=%{_lib} \
+	COMPONENT_TYPE=$c
+done
+
+for c in %{comps} ; do
+%{__make} \
+	Q= \
+	PREFIX=%{_prefix} \
+	LIBDIR=%{_lib} \
+	COMPONENT_TYPE=$c
+done
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__make} -j1 install Q= \
-	lib=%{_lib} \
-	PREFIX=%{_prefix} \
-	COMPONENT_TYPE=lib-shared \
-	DESTDIR=$RPM_BUILD_ROOT
 
-%if %{with static_libs}
-%{__make} -j1 install Q= \
-	lib=%{_lib} \
+for c in %{comps} ; do
+%{__make} -j1 install \
+	Q= \
 	PREFIX=%{_prefix} \
-	COMPONENT_TYPE=lib-static \
+	LIBDIR=%{_lib} \
+	COMPONENT_TYPE=$c \
 	DESTDIR=$RPM_BUILD_ROOT
-%endif
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -104,12 +120,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc COPYING README
 %attr(755,root,root) %{_libdir}/libcss.so.*.*.*
-%ghost %{_libdir}/libcss.so.0
+%attr(755,root,root) %ghost %{_libdir}/libcss.so.0
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/libcss.so
+%attr(755,root,root) %{_libdir}/libcss.so
 %{_includedir}/libcss
 %{_pkgconfigdir}/libcss.pc
 
@@ -118,4 +135,3 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libcss.a
 %endif
-
