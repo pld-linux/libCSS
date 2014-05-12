@@ -15,6 +15,8 @@ URL:		http://www.netsurf-browser.org/projects/libcss/
 BuildRequires:	libparserutils-devel >= 0.2.0
 BuildRequires:	libwapcaplet-devel >= 0.2.1
 BuildRequires:	netsurf-buildsystem >= 1.1
+Requires:	libparserutils >= 0.2.0
+Requires:	libwapcaplet >= 0.2.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -48,6 +50,8 @@ Summary:	libCSS library headers
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libCSS
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	libparserutils-devel >= 0.2.0
+Requires:	libwapcaplet-devel >= 0.2.1
 
 %description devel
 This package contains the include files and other resources you can
