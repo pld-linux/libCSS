@@ -1,0 +1,15 @@
+--- libcss-0.3.0/Makefile~	2014-10-09 08:40:33.000000000 +0200
++++ libcss-0.3.0/Makefile	2014-10-09 08:40:46.021213521 +0200
+@@ -15,12 +15,6 @@
+ WARNFLAGS := -Wall -W -Wundef -Wpointer-arith -Wcast-align \
+ 	-Wwrite-strings -Wstrict-prototypes -Wmissing-prototypes \
+ 	-Wmissing-declarations -Wnested-externs
+-# BeOS/Haiku/AmigaOS4 standard library headers create warnings
+-ifneq ($(TARGET),beos)
+-  ifneq ($(TARGET),amiga)
+-    WARNFLAGS := $(WARNFLAGS) -Werror
+-  endif
+-endif
+ CFLAGS := -D_BSD_SOURCE -I$(CURDIR)/include/ \
+ 	-I$(CURDIR)/src $(WARNFLAGS) $(CFLAGS)
+ ifneq ($(GCCVER),2)
