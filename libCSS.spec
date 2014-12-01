@@ -5,17 +5,17 @@
 Summary:	CSS parser and selection engine
 Summary(pl.UTF-8):	Silnik analizujący i wybierający CSS
 Name:		libCSS
-Version:	0.3.0
-Release:	2
+Version:	0.4.0
+Release:	1
 License:	MIT
 Group:		Libraries
 Source0:	http://download.netsurf-browser.org/libs/releases/libcss-%{version}-src.tar.gz
-# Source0-md5:	f4bf855bab90ef5225dbeeb7d97c514c
+# Source0-md5:	96e833c624c336f01c68665346a45549
 Patch0:		%{name}-build.patch
 URL:		http://www.netsurf-browser.org/projects/libcss/
 BuildRequires:	libparserutils-devel >= 0.2.0
 BuildRequires:	libwapcaplet-devel >= 0.2.1
-BuildRequires:	netsurf-buildsystem >= 1.1
+BuildRequires:	netsurf-buildsystem >= 1.2
 Requires:	libparserutils >= 0.2.0
 Requires:	libwapcaplet >= 0.2.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
