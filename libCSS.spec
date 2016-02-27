@@ -5,19 +5,19 @@
 Summary:	CSS parser and selection engine
 Summary(pl.UTF-8):	Silnik analizujący i wybierający CSS
 Name:		libCSS
-Version:	0.5.0
+Version:	0.6.0
 Release:	1
 License:	MIT
 Group:		Libraries
 Source0:	http://download.netsurf-browser.org/libs/releases/libcss-%{version}-src.tar.gz
-# Source0-md5:	62acb77a91237e987d90c05bc0cf8c5b
+# Source0-md5:	6f678c6119b89d4b0fab37b2c6e69825
 Patch0:		%{name}-build.patch
 URL:		http://www.netsurf-browser.org/projects/libcss/
-BuildRequires:	libparserutils-devel >= 0.2.1
-BuildRequires:	libwapcaplet-devel >= 0.2.2
-BuildRequires:	netsurf-buildsystem >= 1.3
-Requires:	libparserutils >= 0.2.1
-Requires:	libwapcaplet >= 0.2.2
+BuildRequires:	libparserutils-devel >= 0.2.3
+BuildRequires:	libwapcaplet-devel >= 0.3.0
+BuildRequires:	netsurf-buildsystem >= 1.5
+Requires:	libparserutils >= 0.2.3
+Requires:	libwapcaplet >= 0.3.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -76,7 +76,7 @@ Statyczna biblioteka libCSS.
 
 %prep
 %setup -q -n libcss-%{version}
-%patch0 -p1
+#%patch0 -p1
 
 # create "gen" target just to execute PRE_TARGETS
 printf '\ngen: $(PRE_TARGETS)\n' >> Makefile
@@ -87,6 +87,7 @@ printf '\ngen: $(PRE_TARGETS)\n' >> Makefile
 export CC="%{__cc}"
 export CFLAGS="%{rpmcflags} %{rpmcppflags}"
 export LDFLAGS="%{rpmldflags}"
+export AR="%{__ar}"
 
 # generate sources first to avoid recompilation on install when sources
 # get regenerated during build for second component type
@@ -107,6 +108,11 @@ for c in %{comps} ; do
 done
 
 %install
+export CC="%{__cc}"
+export CFLAGS="%{rpmcflags} %{rpmcppflags}"
+export LDFLAGS="%{rpmldflags}"
+export AR="%{__ar}"
+
 rm -rf $RPM_BUILD_ROOT
 
 for c in %{comps} ; do
