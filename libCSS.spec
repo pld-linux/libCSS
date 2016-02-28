@@ -11,7 +11,6 @@ License:	MIT
 Group:		Libraries
 Source0:	http://download.netsurf-browser.org/libs/releases/libcss-%{version}-src.tar.gz
 # Source0-md5:	6f678c6119b89d4b0fab37b2c6e69825
-Patch0:		%{name}-build.patch
 URL:		http://www.netsurf-browser.org/projects/libcss/
 BuildRequires:	libparserutils-devel >= 0.2.3
 BuildRequires:	libwapcaplet-devel >= 0.3.0
@@ -76,7 +75,6 @@ Statyczna biblioteka libCSS.
 
 %prep
 %setup -q -n libcss-%{version}
-#%patch0 -p1
 
 # create "gen" target just to execute PRE_TARGETS
 printf '\ngen: $(PRE_TARGETS)\n' >> Makefile
@@ -108,12 +106,12 @@ for c in %{comps} ; do
 done
 
 %install
+rm -rf $RPM_BUILD_ROOT
+
 export CC="%{__cc}"
 export CFLAGS="%{rpmcflags} %{rpmcppflags}"
 export LDFLAGS="%{rpmldflags}"
 export AR="%{__ar}"
-
-rm -rf $RPM_BUILD_ROOT
 
 for c in %{comps} ; do
 %{__make} -j1 install \
