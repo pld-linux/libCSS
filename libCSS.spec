@@ -50,8 +50,8 @@ Summary:	libCSS library headers
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libCSS
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	libparserutils-devel >= 0.2.1
-Requires:	libwapcaplet-devel >= 0.2.2
+Requires:	libparserutils-devel >= 0.2.3
+Requires:	libwapcaplet-devel >= 0.4.0
 
 %description devel
 This package contains the include files and other resources you can
