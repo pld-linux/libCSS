@@ -5,19 +5,18 @@
 Summary:	CSS parser and selection engine
 Summary(pl.UTF-8):	Silnik analizujący i wybierający CSS
 Name:		libCSS
-Version:	0.7.0
+Version:	0.8.0
 Release:	1
 License:	MIT
 Group:		Libraries
 Source0:	http://download.netsurf-browser.org/libs/releases/libcss-%{version}-src.tar.gz
-# Source0-md5:	5a26cc9ff9921cc29ee137b1061c5689
-Patch0:		0001-Remove-extra-braces-to-fix-build-with-gcc-7.patch
+# Source0-md5:	b7cebcc75fd78f8b9b0702b8ff5eea3f
 URL:		http://www.netsurf-browser.org/projects/libcss/
-BuildRequires:	libparserutils-devel >= 0.2.3
-BuildRequires:	libwapcaplet-devel >= 0.4.0
-BuildRequires:	netsurf-buildsystem >= 1.6
-Requires:	libparserutils >= 0.2.3
-Requires:	libwapcaplet >= 0.4.0
+BuildRequires:	libparserutils-devel >= 0.2.4
+BuildRequires:	libwapcaplet-devel >= 0.4.1
+BuildRequires:	netsurf-buildsystem >= 1.7
+Requires:	libparserutils >= 0.2.4
+Requires:	libwapcaplet >= 0.4.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -76,7 +75,6 @@ Statyczna biblioteka libCSS.
 
 %prep
 %setup -q -n libcss-%{version}
-%patch0 -p1
 
 # create "gen" target just to execute PRE_TARGETS
 printf '\ngen: $(PRE_TARGETS)\n' >> Makefile
