@@ -11,6 +11,7 @@ License:	MIT
 Group:		Libraries
 Source0:	http://download.netsurf-browser.org/libs/releases/libcss-%{version}-src.tar.gz
 # Source0-md5:	eeb912a26c943aa1cc8fa5b5b6ec316b
+Patch0:		gcc14.patch
 URL:		http://www.netsurf-browser.org/projects/libcss/
 BuildRequires:	libparserutils-devel >= 0.2.5
 BuildRequires:	libwapcaplet-devel >= 0.4.3
@@ -36,7 +37,7 @@ Features:
 %description -l pl.UTF-8
 LibCSS to silnik analizujący i wybierający CSS (Cascading Style
 Sheet), napisany w C. Powstał jako część projektu NetSurf i można go
-używać w innych programach na licencji MIT. 
+używać w innych programach na licencji MIT.
 
 Cechy:
 - analizuje CSS, dobry i wadliwy
@@ -76,6 +77,7 @@ Statyczna biblioteka libCSS.
 
 %prep
 %setup -q -n libcss-%{version}
+%patch0 -p1
 
 # create "gen" target just to execute PRE_TARGETS
 printf '\ngen: $(PRE_TARGETS)\n' >> Makefile
